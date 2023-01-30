@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_h3hoensefoedder/Data/DataManager.dart';
 import 'package:flutter_h3hoensefoedder/Objects/TempObject.dart';
-import 'package:flutter_h3hoensefoedder/widgets/ExtendedInfoWidget.dart';
 
 class TempsWidget extends StatefulWidget {
   const TempsWidget({super.key});
@@ -31,27 +30,21 @@ class _TempsWidgetState extends State<TempsWidget> {
   Widget build(BuildContext context) {
     return Container(
       height: 50,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.red,
-        ),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ExtendedInfoWidget(
-                      title: "Temps",
-                    )),
-          );
-        },
+      width: 150,
+      color: Colors.red,
+      child: Center(
         child: FutureBuilder(
           future: GetData(),
           builder: ((context, snapshot) {
             List<Widget> childs;
             if (snapshot.hasData) {
               childs = <Widget>[
-                Text("Water temp is ${data?.Watertemp}"),
-                Text("Outside temp is ${data?.Outsidetemp}"),
+                Text(
+                  "Water temp is ${data?.Watertemp}",
+                  style: TextStyle(color: Colors.white),
+                ),
+                Text("Outside temp is ${data?.Outsidetemp}",
+                    style: TextStyle(color: Colors.white)),
               ];
             } else if (snapshot.hasError) {
               childs = <Widget>[

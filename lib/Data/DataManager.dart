@@ -6,7 +6,7 @@ import 'package:flutter_h3hoensefoedder/Objects/WeightObject.dart';
 class DataManager {
   Future<TempObject> GetTemps() async {
     DataHandler handler = DataHandler();
-    handler.startConnection();
+    handler.ReceivedDataType("Temp", "Temp 20.0 Water 10.0");
     return TempObject(20, 10);
   }
 

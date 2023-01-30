@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_h3hoensefoedder/Objects/TempObject.dart';
-import 'package:flutter_h3hoensefoedder/widgets/ExtendedInfoWidget.dart';
 
 class StatusWidget extends StatefulWidget {
   const StatusWidget({super.key, required this.title});
@@ -22,27 +21,20 @@ class _StatusWidgetState extends State<StatusWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.green,
       height: 50,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.green,
-        ),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ExtendedInfoWidget(
-                      title: "Status",
-                    )),
-          );
-        },
+      width: 150,
+      child: Center(
         child: FutureBuilder(
           future: GetData(),
           builder: ((context, snapshot) {
             List<Widget> childs;
             if (snapshot.hasData) {
               childs = <Widget>[
-                Text(widget.title),
+                Text(
+                  widget.title,
+                  style: TextStyle(color: Colors.white),
+                ),
               ];
             } else if (snapshot.hasError) {
               childs = <Widget>[

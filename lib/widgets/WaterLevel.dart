@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_h3hoensefoedder/Data/DataManager.dart';
 import 'package:flutter_h3hoensefoedder/Objects/WaterLevelObject.dart';
-import 'package:flutter_h3hoensefoedder/widgets/ExtendedInfoWidget.dart';
 
 class WaterLevel extends StatefulWidget {
   const WaterLevel({super.key});
@@ -30,27 +29,18 @@ class _WaterLevelState extends State<WaterLevel> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.blue,
       height: 50,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue,
-        ),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ExtendedInfoWidget(
-                      title: "Water level",
-                    )),
-          );
-        },
+      width: 150,
+      child: Center(
         child: FutureBuilder(
           future: GetData(),
           builder: ((context, snapshot) {
             List<Widget> childs;
             if (snapshot.hasData) {
               childs = <Widget>[
-                Text("Water Level is ${data?.Waterlevel}%"),
+                Text("Water Level is ${data?.Waterlevel}%",
+                    style: TextStyle(color: Colors.white)),
               ];
             } else if (snapshot.hasError) {
               childs = <Widget>[

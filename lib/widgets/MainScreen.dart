@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_h3hoensefoedder/widgets/StatusWidget.dart';
 import 'package:flutter_h3hoensefoedder/widgets/Temps.dart';
@@ -13,30 +12,11 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  //TcpSocketConnection socketConnection = TcpSocketConnection("10.0.2.2", 13000);
-
-  //String message = "";
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    //startConnection();
   }
-
-  // void messageReceived(String msg) {
-  // setState(() {
-  // message = msg;
-  //});
-  //Timer(const Duration(seconds: 5),
-  // (() => socketConnection.sendMessage("message")));
-  //}
-
-  //void startConnection() async {
-  //socketConnection.enableConsolePrint(true);
-  //if (await socketConnection.canConnect(5000, attempts: 5)) {
-  //  await socketConnection.connect(5000, messageReceived, attempts: 5);
-  // }
-  //}
 
   @override
   Widget build(BuildContext context) {

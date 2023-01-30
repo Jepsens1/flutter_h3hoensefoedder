@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_h3hoensefoedder/Data/DataManager.dart';
 import 'package:flutter_h3hoensefoedder/Objects/WeightObject.dart';
-import 'package:flutter_h3hoensefoedder/widgets/ExtendedInfoWidget.dart';
 
 class WeightWidget extends StatefulWidget {
   const WeightWidget({super.key});
@@ -30,28 +29,20 @@ class _WeightWidgetState extends State<WeightWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.orange,
       height: 50,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.orange,
-        ),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const ExtendedInfoWidget(
-                      title: "Weight",
-                    )),
-          );
-        },
+      width: 150,
+      child: Center(
         child: FutureBuilder(
           future: GetData(),
           builder: ((context, snapshot) {
             List<Widget> childs;
             if (snapshot.hasData) {
               childs = <Widget>[
-                Text("Food weight is ${data?.Foodweight}"),
-                Text("Egg weight is ${data?.Eggweight}"),
+                Text("Food weight is ${data?.Foodweight}",
+                    style: TextStyle(color: Colors.white)),
+                Text("Egg weight is ${data?.Eggweight}",
+                    style: TextStyle(color: Colors.white)),
               ];
             } else if (snapshot.hasError) {
               childs = <Widget>[
