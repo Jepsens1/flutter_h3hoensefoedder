@@ -4,10 +4,12 @@ import 'package:flutter_h3hoensefoedder/Objects/WaterLevelObject.dart';
 import 'package:flutter_h3hoensefoedder/Objects/WeightObject.dart';
 
 class DataManager {
-  Future<TempObject> GetTemps() async {
-    DataHandler handler = DataHandler();
-    handler.ReceivedDataType("Temp", "Temp 20.0 Water 10.0");
-    return TempObject(20, 10);
+  DataHandler handler = DataHandler();
+  DataManager() {
+    handler.startConnection();
+  }
+  Future<dynamic> GetData() async {
+    return handler.GetData();
   }
 
   Future<WeightObject> GetWeight() async {

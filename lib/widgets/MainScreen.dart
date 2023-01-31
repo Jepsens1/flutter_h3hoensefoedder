@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_h3hoensefoedder/widgets/StatusWidget.dart';
+import 'package:flutter_h3hoensefoedder/Data/DataManager.dart';
+import 'package:flutter_h3hoensefoedder/widgets/HatchStatusWidget.dart';
+import 'package:flutter_h3hoensefoedder/widgets/LightStatusWidget.dart';
 import 'package:flutter_h3hoensefoedder/widgets/Temps.dart';
 import 'package:flutter_h3hoensefoedder/widgets/WaterLevel.dart';
 import 'package:flutter_h3hoensefoedder/widgets/Weightwidget.dart';
@@ -12,6 +14,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  DataManager manager = DataManager();
   @override
   void initState() {
     // TODO: implement initState
@@ -30,26 +33,22 @@ class _MainScreenState extends State<MainScreen> {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
-                TempsWidget(),
-                WaterLevel(),
+              children: [
+                TempsWidget(manager: manager),
+                WaterLevel(manager: manager),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
-                WeightWidget(),
-                StatusWidget(
-                  title: "Lights status",
-                ),
+              children: [
+                WeightWidget(manager: manager),
+                LightStatusWidget(manager: manager),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
-                StatusWidget(
-                  title: "Hatch closed",
-                ),
+              children: [
+                HatchStatusWidget(manager: manager),
               ],
             )
           ],

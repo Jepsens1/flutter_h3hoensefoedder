@@ -1,21 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_h3hoensefoedder/Objects/TempObject.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_h3hoensefoedder/Data/DataManager.dart';
+import 'package:flutter_h3hoensefoedder/Objects/StatusObject.dart';
 
-class StatusWidget extends StatefulWidget {
-  const StatusWidget({super.key, required this.title});
-
-  final String title;
+class HatchStatusWidget extends StatefulWidget {
+  HatchStatusWidget({super.key, required this.manager});
+  DataManager manager;
   @override
-  State<StatusWidget> createState() => _StatusWidgetState();
+  State<HatchStatusWidget> createState() => _HatchStatusWidgetState();
 }
 
-class _StatusWidgetState extends State<StatusWidget> {
-  TempObject? data;
-  Future<TempObject?> GetData() async {
-    if (data == null) {
-      data = TempObject(20, 10);
+class _HatchStatusWidgetState extends State<HatchStatusWidget> {
+  HatchStatusObject? data;
+  Future<HatchStatusObject?> GetData() async {
+    var recieveddata = await widget.manager.GetData();
+    if (recieveddata.runtimeType == HatchStatusObject) {
+      setState(() {
+        data = recieveddata;
+      });
+      return data;
     }
     return data;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
   }
 
   @override
@@ -32,7 +44,7 @@ class _StatusWidgetState extends State<StatusWidget> {
             if (snapshot.hasData) {
               childs = <Widget>[
                 Text(
-                  widget.title,
+                  data!.status,
                   style: TextStyle(color: Colors.white),
                 ),
               ];

@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_h3hoensefoedder/Data/DataManager.dart';
+import 'package:flutter_h3hoensefoedder/Objects/StatusObject.dart';
 import 'package:flutter_h3hoensefoedder/Objects/TempObject.dart';
 
-class TempsWidget extends StatefulWidget {
-  TempsWidget({super.key, required this.manager});
-
+class LightStatusWidget extends StatefulWidget {
+  LightStatusWidget({super.key, required this.manager});
   DataManager manager;
   @override
-  State<TempsWidget> createState() => _TempsWidgetState();
+  State<LightStatusWidget> createState() => _LightStatusWidgetState();
 }
 
-class _TempsWidgetState extends State<TempsWidget> {
-  TempObject? data;
-  Future<TempObject?> GetData() async {
+class _LightStatusWidgetState extends State<LightStatusWidget> {
+  LightStatusObject? data;
+  Future<LightStatusObject?> GetData() async {
     var recieveddata = await widget.manager.GetData();
-    if (recieveddata.runtimeType == TempObject) {
+    if (recieveddata.runtimeType == LightStatusObject) {
       setState(() {
         data = recieveddata;
       });
-
       return data;
     }
     return data;
@@ -33,9 +32,9 @@ class _TempsWidgetState extends State<TempsWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.green,
       height: 50,
       width: 150,
-      color: Colors.red,
       child: Center(
         child: FutureBuilder(
           future: GetData(),
@@ -44,11 +43,9 @@ class _TempsWidgetState extends State<TempsWidget> {
             if (snapshot.hasData) {
               childs = <Widget>[
                 Text(
-                  "Water temp is ${data?.Watertemp}",
+                  data!.status,
                   style: TextStyle(color: Colors.white),
                 ),
-                Text("Outside temp is ${data?.Outsidetemp}",
-                    style: TextStyle(color: Colors.white)),
               ];
             } else if (snapshot.hasError) {
               childs = <Widget>[

@@ -3,18 +3,21 @@ import 'package:flutter_h3hoensefoedder/Data/DataManager.dart';
 import 'package:flutter_h3hoensefoedder/Objects/WaterLevelObject.dart';
 
 class WaterLevel extends StatefulWidget {
-  const WaterLevel({super.key});
-
+  WaterLevel({super.key, required this.manager});
+  DataManager manager;
   @override
   State<WaterLevel> createState() => _WaterLevelState();
 }
 
 class _WaterLevelState extends State<WaterLevel> {
   WaterLevelObject? data;
-  late DataManager manager;
   Future<WaterLevelObject?> GetData() async {
-    if (data == null) {
-      data = await manager.GetWaterLevel();
+    var recieveddata = await widget.manager.GetData();
+    if (recieveddata.runtimeType == WaterLevelObject) {
+      setState(() {
+        data = recieveddata;
+      });
+      return data;
     }
     return data;
   }
@@ -23,7 +26,6 @@ class _WaterLevelState extends State<WaterLevel> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    manager = DataManager();
   }
 
   @override

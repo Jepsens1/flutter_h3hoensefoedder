@@ -3,18 +3,21 @@ import 'package:flutter_h3hoensefoedder/Data/DataManager.dart';
 import 'package:flutter_h3hoensefoedder/Objects/WeightObject.dart';
 
 class WeightWidget extends StatefulWidget {
-  const WeightWidget({super.key});
-
+  WeightWidget({super.key, required this.manager});
+  DataManager manager;
   @override
   State<WeightWidget> createState() => _WeightWidgetState();
 }
 
 class _WeightWidgetState extends State<WeightWidget> {
   WeightObject? data;
-  late DataManager manager;
   Future<WeightObject?> GetData() async {
-    if (data == null) {
-      data = await manager.GetWeight();
+    var recieveddata = await widget.manager.GetData();
+    if (recieveddata.runtimeType == WeightObject) {
+      setState(() {
+        data = recieveddata;
+      });
+      return data;
     }
     return data;
   }
@@ -23,7 +26,6 @@ class _WeightWidgetState extends State<WeightWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    manager = DataManager();
   }
 
   @override
