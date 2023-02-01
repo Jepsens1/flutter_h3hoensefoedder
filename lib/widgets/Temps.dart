@@ -3,9 +3,9 @@ import 'package:flutter_h3hoensefoedder/Data/DataManager.dart';
 import 'package:flutter_h3hoensefoedder/Objects/TempObject.dart';
 
 class TempsWidget extends StatefulWidget {
-  TempsWidget({super.key, required this.manager});
+  const TempsWidget({super.key, required this.manager});
 
-  DataManager manager;
+  final DataManager manager;
   @override
   State<TempsWidget> createState() => _TempsWidgetState();
 }
@@ -35,7 +35,9 @@ class _TempsWidgetState extends State<TempsWidget> {
     return Container(
       height: 50,
       width: 150,
-      color: Colors.red,
+      decoration: const BoxDecoration(
+          color: Colors.cyan,
+          borderRadius: BorderRadius.all(Radius.circular(10))),
       child: Center(
         child: FutureBuilder(
           future: GetData(),
@@ -45,10 +47,12 @@ class _TempsWidgetState extends State<TempsWidget> {
               childs = <Widget>[
                 Text(
                   "Water temp is ${data?.Watertemp}",
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
                 ),
                 Text("Outside temp is ${data?.Outsidetemp}",
-                    style: TextStyle(color: Colors.white)),
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
               ];
             } else if (snapshot.hasError) {
               childs = <Widget>[
@@ -58,7 +62,9 @@ class _TempsWidgetState extends State<TempsWidget> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 16),
-                  child: Text('Error: ${snapshot.error}'),
+                  child: Text('Error: ${snapshot.error}',
+                      style: const TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold)),
                 ),
               ];
             } else {
@@ -72,7 +78,13 @@ class _TempsWidgetState extends State<TempsWidget> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 8),
-                  child: Text('Awaiting result...'),
+                  child: Text(
+                    'Awaiting result...',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ];
             }

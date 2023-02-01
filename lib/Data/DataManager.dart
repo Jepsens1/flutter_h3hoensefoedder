@@ -1,7 +1,4 @@
 import 'package:flutter_h3hoensefoedder/Data/Datahandler.dart';
-import 'package:flutter_h3hoensefoedder/Objects/TempObject.dart';
-import 'package:flutter_h3hoensefoedder/Objects/WaterLevelObject.dart';
-import 'package:flutter_h3hoensefoedder/Objects/WeightObject.dart';
 
 class DataManager {
   DataHandler handler = DataHandler();
@@ -12,11 +9,7 @@ class DataManager {
     return handler.GetData();
   }
 
-  Future<WeightObject> GetWeight() async {
-    return WeightObject(40, 10);
-  }
-
-  Future<WaterLevelObject> GetWaterLevel() async {
-    return WaterLevelObject(10);
+  void openClose(String type, bool status) async {
+    handler.openClose(type, status);
   }
 }

@@ -5,10 +5,10 @@ import 'package:flutter_h3hoensefoedder/Objects/WeightObject.dart';
 import 'package:tcp_socket_connection/tcp_socket_connection.dart';
 
 class DataHandler {
-  TcpSocketConnection socketConnection = TcpSocketConnection("127.0.0.1", 9999);
+  TcpSocketConnection socketConnection =
+      TcpSocketConnection("192.168.1.112", 9999);
   String message = "";
   void messageReceived(String msg) {
-    print(msg);
     message = msg;
   }
 
@@ -18,9 +18,13 @@ class DataHandler {
 
   void startConnection() async {
     socketConnection.enableConsolePrint(true);
-    if (await socketConnection.canConnect(5000, attempts: 1000)) {
-      await socketConnection.connect(5000, messageReceived, attempts: 1);
-      socketConnection.sendMessage("1");
+    await socketConnection.connect(5000, messageReceived, attempts: 100);
+    socketConnection.sendMessage("1");
+  }
+
+  void openClose(String type, bool status) {
+    if (socketConnection.isConnected()) {
+      socketConnection.sendMessage("$type $status");
     }
   }
 
@@ -45,11 +49,11 @@ class DataHandler {
         return weightObject;
       case "Lights":
         String lightstatus = msg.replaceAll("Lights", "");
-        LightStatusObject light = LightStatusObject(lightstatus.toLowerCase());
+        LightStatusObject light = LightStatusObject(lightstatus as bool);
         return light;
       case "Hatch":
         String hatchstatus = msg.replaceAll("Hatch", "");
-        HatchStatusObject hatch = HatchStatusObject(hatchstatus.toLowerCase());
+        HatchStatusObject hatch = HatchStatusObject(hatchstatus as bool);
         return hatch;
     }
   }

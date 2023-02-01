@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_h3hoensefoedder/Data/DataManager.dart';
 import 'package:flutter_h3hoensefoedder/widgets/HatchStatusWidget.dart';
 import 'package:flutter_h3hoensefoedder/widgets/LightStatusWidget.dart';
+import 'package:flutter_h3hoensefoedder/widgets/LiveVideoWidget.dart';
 import 'package:flutter_h3hoensefoedder/widgets/Temps.dart';
 import 'package:flutter_h3hoensefoedder/widgets/WaterLevel.dart';
 import 'package:flutter_h3hoensefoedder/widgets/Weightwidget.dart';
@@ -50,7 +51,7 @@ class _MainScreenState extends State<MainScreen> {
               children: [
                 HatchStatusWidget(manager: manager),
               ],
-            )
+            ),
           ],
         ),
       ),

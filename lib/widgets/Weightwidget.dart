@@ -3,8 +3,8 @@ import 'package:flutter_h3hoensefoedder/Data/DataManager.dart';
 import 'package:flutter_h3hoensefoedder/Objects/WeightObject.dart';
 
 class WeightWidget extends StatefulWidget {
-  WeightWidget({super.key, required this.manager});
-  DataManager manager;
+  const WeightWidget({super.key, required this.manager});
+  final DataManager manager;
   @override
   State<WeightWidget> createState() => _WeightWidgetState();
 }
@@ -31,9 +31,11 @@ class _WeightWidgetState extends State<WeightWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.orange,
       height: 50,
       width: 150,
+      decoration: const BoxDecoration(
+          color: Colors.orange,
+          borderRadius: BorderRadius.all(Radius.circular(10))),
       child: Center(
         child: FutureBuilder(
           future: GetData(),
@@ -42,9 +44,11 @@ class _WeightWidgetState extends State<WeightWidget> {
             if (snapshot.hasData) {
               childs = <Widget>[
                 Text("Food weight is ${data?.Foodweight}",
-                    style: TextStyle(color: Colors.white)),
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
                 Text("Egg weight is ${data?.Eggweight}",
-                    style: TextStyle(color: Colors.white)),
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
               ];
             } else if (snapshot.hasError) {
               childs = <Widget>[
@@ -54,7 +58,11 @@ class _WeightWidgetState extends State<WeightWidget> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 16),
-                  child: Text('Error: ${snapshot.error}'),
+                  child: Text(
+                    'Error: ${snapshot.error}',
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ];
             } else {
@@ -68,7 +76,11 @@ class _WeightWidgetState extends State<WeightWidget> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 8),
-                  child: Text('Awaiting result...'),
+                  child: Text(
+                    'Awaiting result...',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ];
             }

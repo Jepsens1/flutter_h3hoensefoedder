@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_h3hoensefoedder/widgets/MainScreen.dart';
-import 'package:flutter_h3hoensefoedder/widgets/Temps.dart';
 
 void main() {
   runApp(const MyApp());

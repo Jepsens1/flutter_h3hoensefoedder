@@ -3,8 +3,8 @@ import 'package:flutter_h3hoensefoedder/Data/DataManager.dart';
 import 'package:flutter_h3hoensefoedder/Objects/WaterLevelObject.dart';
 
 class WaterLevel extends StatefulWidget {
-  WaterLevel({super.key, required this.manager});
-  DataManager manager;
+  const WaterLevel({super.key, required this.manager});
+  final DataManager manager;
   @override
   State<WaterLevel> createState() => _WaterLevelState();
 }
@@ -31,9 +31,11 @@ class _WaterLevelState extends State<WaterLevel> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.blue,
       height: 50,
       width: 150,
+      decoration: const BoxDecoration(
+          color: Colors.indigo,
+          borderRadius: BorderRadius.all(Radius.circular(10))),
       child: Center(
         child: FutureBuilder(
           future: GetData(),
@@ -42,7 +44,8 @@ class _WaterLevelState extends State<WaterLevel> {
             if (snapshot.hasData) {
               childs = <Widget>[
                 Text("Water Level is ${data?.Waterlevel}%",
-                    style: TextStyle(color: Colors.white)),
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
               ];
             } else if (snapshot.hasError) {
               childs = <Widget>[
@@ -52,7 +55,9 @@ class _WaterLevelState extends State<WaterLevel> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 16),
-                  child: Text('Error: ${snapshot.error}'),
+                  child: Text('Error: ${snapshot.error}',
+                      style: const TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold)),
                 ),
               ];
             } else {
@@ -66,7 +71,11 @@ class _WaterLevelState extends State<WaterLevel> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 8),
-                  child: Text('Awaiting result...'),
+                  child: Text(
+                    'Awaiting result...',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ];
             }
