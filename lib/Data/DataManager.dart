@@ -6,7 +6,7 @@ class DataManager {
     handler.startConnection();
   }
   Future<dynamic> GetData() async {
-    return handler.GetData();
+    return await handler.GetData();
   }
 
   void openClose(String type, bool status) async {

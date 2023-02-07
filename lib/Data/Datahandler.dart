@@ -1,13 +1,14 @@
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter_h3hoensefoedder/Objects/StatusObject.dart';
 import 'package:flutter_h3hoensefoedder/Objects/TempObject.dart';
 import 'package:flutter_h3hoensefoedder/Objects/WaterLevelObject.dart';
 import 'package:flutter_h3hoensefoedder/Objects/WeightObject.dart';
-import 'package:tcp_socket_connection/tcp_socket_connection.dart';
 
 class DataHandler {
-  TcpSocketConnection socketConnection =
-      TcpSocketConnection("192.168.1.112", 9999);
   String message = "";
+  bool isConnected = false;
+  Socket? socket;
   void messageReceived(String msg) {
     message = msg;
   }
@@ -17,14 +18,35 @@ class DataHandler {
   }
 
   void startConnection() async {
-    socketConnection.enableConsolePrint(true);
-    await socketConnection.connect(5000, messageReceived, attempts: 100);
-    socketConnection.sendMessage("1");
+    socket = await Socket.connect("192.168.1.112", 9999,
+        timeout: const Duration(seconds: 6000));
+    print("Connected");
+    isConnected = true;
+    socket!.write("1");
+
+    socket!.listen(
+        // handle data from the server
+        (Uint8List data) {
+      String serverResponse = String.fromCharCodes(data);
+      print('Server: $serverResponse');
+      messageReceived(serverResponse);
+    }, onDone: () {
+      print("Server is offline");
+      isConnected = false;
+      socket!.destroy();
+    }, onError: (error) {
+      print(error);
+      isConnected = false;
+      socket!.destroy();
+    });
   }
 
   void openClose(String type, bool status) {
-    if (socketConnection.isConnected()) {
-      socketConnection.sendMessage("$type $status");
+    if (isConnected) {
+      socket!.write("$type $status-");
+      print("Send: $type $status-");
+    } else {
+      startConnection();
     }
   }
 
@@ -49,7 +71,11 @@ class DataHandler {
         return weightObject;
       case "Lights":
         String lightstatus = msg.replaceAll("Lights", "");
-        LightStatusObject light = LightStatusObject(lightstatus as bool);
+        bool lightstatusss = false;
+        if (lightstatus.contains("true")) {
+          lightstatusss = true;
+        }
+        LightStatusObject light = LightStatusObject(lightstatusss);
         return light;
       case "Hatch":
         String hatchstatus = msg.replaceAll("Hatch", "");

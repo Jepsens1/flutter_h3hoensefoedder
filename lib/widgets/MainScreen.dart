@@ -50,6 +50,12 @@ class _MainScreenState extends State<MainScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 HatchStatusWidget(manager: manager),
+                ElevatedButton(
+                  child: Text("TEST"),
+                  onPressed: () {
+                    manager.openClose("Lights", false);
+                  },
+                )
               ],
             ),
           ],
