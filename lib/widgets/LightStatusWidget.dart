@@ -67,6 +67,7 @@ class _LightStatusWidgetState extends State<LightStatusWidget> {
                           data!.status = !data!.status;
                         });
                         widget.manager.openClose("Lights", data!.status);
+                        widget.manager.openClose("Lights", data!.status);
                         Navigator.of(context).pop();
                       },
                     ),

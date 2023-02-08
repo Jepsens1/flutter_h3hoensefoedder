@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter_h3hoensefoedder/Objects/StatusObject.dart';
@@ -6,15 +7,15 @@ import 'package:flutter_h3hoensefoedder/Objects/WaterLevelObject.dart';
 import 'package:flutter_h3hoensefoedder/Objects/WeightObject.dart';
 
 class DataHandler {
-  String message = "";
+  List<String> messages = List.empty(growable: true);
   bool isConnected = false;
   Socket? socket;
-  void messageReceived(String msg) {
-    message = msg;
-  }
 
-  dynamic GetData() {
-    return receivedDataType(message);
+  dynamic GetData() async {
+    if (!messages.isEmpty) {
+      print("in queue ${messages[0]}");
+      return await receivedDataType(messages[0]);
+    }
   }
 
   void startConnection() async {
@@ -29,7 +30,7 @@ class DataHandler {
         (Uint8List data) {
       String serverResponse = String.fromCharCodes(data);
       print('Server: $serverResponse');
-      messageReceived(serverResponse);
+      messages.add(serverResponse);
     }, onDone: () {
       print("Server is offline");
       isConnected = false;
@@ -43,24 +44,26 @@ class DataHandler {
 
   void openClose(String type, bool status) {
     if (isConnected) {
-      socket!.write("$type $status-");
+      socket!.add(utf8.encode("$type $status-"));
       print("Send: $type $status-");
     } else {
       startConnection();
     }
   }
 
-  dynamic receivedDataType(String msg) {
+  dynamic receivedDataType(String msg) async {
     final type = msg.split(" ");
     switch (type[0]) {
       case "Temp":
         String numbers = msg.replaceAll("Temp", "").replaceAll("Water", "");
         final finalvalues = numbers.split("  ");
         TempObject tempob = TempObject(double.parse(finalvalues[0]), 15);
+        messages.removeAt(0);
         return tempob;
       case "WaterLevel":
         String number = msg.replaceAll("WaterLevel", "");
         WaterLevelObject waterlevel = WaterLevelObject(double.parse(number));
+        messages.removeAt(0);
         return waterlevel;
       case "Weight":
         String weights =
@@ -68,6 +71,7 @@ class DataHandler {
         final finalvalues = weights.split("  ");
         WeightObject weightObject = WeightObject(
             double.parse(finalvalues[0]), double.parse(finalvalues[1]));
+        messages.removeAt(0);
         return weightObject;
       case "Lights":
         String lightstatus = msg.replaceAll("Lights", "");
@@ -76,10 +80,12 @@ class DataHandler {
           lightstatusss = true;
         }
         LightStatusObject light = LightStatusObject(lightstatusss);
+        messages.removeAt(0);
         return light;
       case "Hatch":
         String hatchstatus = msg.replaceAll("Hatch", "");
         HatchStatusObject hatch = HatchStatusObject(hatchstatus as bool);
+        messages.removeAt(0);
         return hatch;
     }
   }

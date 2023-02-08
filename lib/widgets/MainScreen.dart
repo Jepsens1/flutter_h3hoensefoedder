@@ -6,6 +6,7 @@ import 'package:flutter_h3hoensefoedder/widgets/LiveVideoWidget.dart';
 import 'package:flutter_h3hoensefoedder/widgets/Temps.dart';
 import 'package:flutter_h3hoensefoedder/widgets/WaterLevel.dart';
 import 'package:flutter_h3hoensefoedder/widgets/Weightwidget.dart';
+import 'package:flutter_h3hoensefoedder/widgets/testwidget.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -15,11 +16,12 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  DataManager manager = DataManager();
+  late DataManager manager;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    manager = DataManager();
   }
 
   @override
@@ -36,6 +38,7 @@ class _MainScreenState extends State<MainScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 TempsWidget(manager: manager),
+                //testwdiget(),
                 WaterLevel(manager: manager),
               ],
             ),
@@ -50,12 +53,13 @@ class _MainScreenState extends State<MainScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 HatchStatusWidget(manager: manager),
-                ElevatedButton(
-                  child: Text("TEST"),
-                  onPressed: () {
-                    manager.openClose("Lights", false);
-                  },
-                )
+                //ElevatedButton(
+                // child: Text("TEST"),
+                // onPressed: () {
+                //   manager.openClose("Lights", false);
+                //   manager.openClose("Lights", false);
+                // },
+                //
               ],
             ),
           ],

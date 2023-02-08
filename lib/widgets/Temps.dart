@@ -11,23 +11,20 @@ class TempsWidget extends StatefulWidget {
 }
 
 class _TempsWidgetState extends State<TempsWidget> {
-  TempObject? data;
-  Future<TempObject?> GetData() async {
+  late Future<TempObject> tempobj;
+  Future<TempObject> getData() async {
     var recieveddata = await widget.manager.GetData();
     if (recieveddata.runtimeType == TempObject) {
-      setState(() {
-        data = recieveddata;
-      });
-
-      return data;
+      return recieveddata;
     }
-    return data;
+    return TempObject(0, 0);
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    tempobj = getData();
   }
 
   @override
@@ -38,65 +35,24 @@ class _TempsWidgetState extends State<TempsWidget> {
       decoration: const BoxDecoration(
           color: Colors.cyan,
           borderRadius: BorderRadius.all(Radius.circular(10))),
-      child: Center(
-        child: FutureBuilder(
-          future: GetData(),
-          builder: ((context, snapshot) {
-            List<Widget> childs;
-            if (snapshot.hasData) {
-              childs = <Widget>[
-                Text(
-                  "Water temp is ${data?.Watertemp}",
-                  style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-                Text("Outside temp is ${data?.Outsidetemp}",
-                    style: const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
-              ];
-            } else if (snapshot.hasError) {
-              childs = <Widget>[
-                const Icon(
-                  Icons.error_outline,
-                  color: Colors.red,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: Text('Error: ${snapshot.error}',
-                      style: const TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold)),
-                ),
-              ];
+      child: FutureBuilder<TempObject>(
+          future: tempobj,
+          builder: (BuildContext context, AsyncSnapshot<TempObject> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
+            } else if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasError) {
+                return const Text('Error');
+              } else if (snapshot.hasData) {
+                return Text("${snapshot.data!.Outsidetemp}",
+                    style: const TextStyle(color: Colors.cyan, fontSize: 36));
+              } else {
+                return const Text('Empty data');
+              }
             } else {
-              childs = const <Widget>[
-                SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 8),
-                  child: Text(
-                    'Awaiting result...',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ];
+              return Text('State: ${snapshot.connectionState}');
             }
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: childs,
-              ),
-            );
           }),
-        ),
-      ),
     );
   }
 }
