@@ -13,22 +13,26 @@ class _LightStatusWidgetState extends State<LightStatusWidget> {
   LightStatusObject? data;
   late String status;
   Color? buttoncolor = Colors.red;
-  Future<LightStatusObject?> GetData() async {
-    var recieveddata = await widget.manager.GetData();
-    if (recieveddata.runtimeType == LightStatusObject) {
-      setState(() {
-        data = recieveddata;
-        if (data!.status) {
-          buttoncolor = Colors.green;
-          status = "On";
-        } else if (!data!.status) {
-          buttoncolor = Colors.red;
-          status = "Off";
-        }
-      });
-      return data;
+  Stream<LightStatusObject?> GetData() async* {
+    await Future.delayed(Duration(seconds: 1));
+    while (true) {
+      await Future.delayed(Duration(seconds: 2));
+      var recieveddata = await widget.manager.GetData();
+      if (recieveddata.runtimeType == LightStatusObject) {
+        setState(() {
+          data = recieveddata;
+          if (data!.status) {
+            buttoncolor = Colors.green;
+            status = "On";
+          } else if (!data!.status) {
+            buttoncolor = Colors.red;
+            status = "Off";
+          }
+        });
+        yield data;
+      }
+      yield data;
     }
-    return data;
   }
 
   @override
@@ -89,8 +93,8 @@ class _LightStatusWidgetState extends State<LightStatusWidget> {
             ),
             backgroundColor: buttoncolor,
             textStyle: const TextStyle(fontWeight: FontWeight.bold)),
-        child: FutureBuilder(
-          future: GetData(),
+        child: StreamBuilder(
+          stream: GetData(),
           builder: ((context, snapshot) {
             List<Widget> childs;
             if (snapshot.hasData) {

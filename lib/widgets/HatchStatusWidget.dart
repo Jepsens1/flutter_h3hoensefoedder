@@ -124,7 +124,7 @@ class _HatchStatusWidgetState extends State<HatchStatusWidget> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 8),
-                  child: Text('Awaiting result...',
+                  child: Text('Awaiting Hatch...',
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold)),
                 ),

@@ -6,7 +6,6 @@ import 'package:flutter_h3hoensefoedder/widgets/LiveVideoWidget.dart';
 import 'package:flutter_h3hoensefoedder/widgets/Temps.dart';
 import 'package:flutter_h3hoensefoedder/widgets/WaterLevel.dart';
 import 'package:flutter_h3hoensefoedder/widgets/Weightwidget.dart';
-import 'package:flutter_h3hoensefoedder/widgets/testwidget.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});

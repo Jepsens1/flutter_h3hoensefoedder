@@ -77,7 +77,7 @@ class _WeightWidgetState extends State<WeightWidget> {
                 Padding(
                   padding: EdgeInsets.only(top: 8),
                   child: Text(
-                    'Awaiting result...',
+                    'Awaiting Weight...',
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),

@@ -72,7 +72,7 @@ class _WaterLevelState extends State<WaterLevel> {
                 Padding(
                   padding: EdgeInsets.only(top: 8),
                   child: Text(
-                    'Awaiting result...',
+                    'Awaiting Water...',
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),

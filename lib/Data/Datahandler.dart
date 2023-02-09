@@ -18,7 +18,7 @@ class DataHandler {
     }
   }
 
-  void startConnection() async {
+  Future<void> startConnection() async {
     socket = await Socket.connect("192.168.1.112", 9999,
         timeout: const Duration(seconds: 6000));
     print("Connected");
@@ -55,9 +55,9 @@ class DataHandler {
     final type = msg.split(" ");
     switch (type[0]) {
       case "Temp":
-        String numbers = msg.replaceAll("Temp", "").replaceAll("Water", "");
+        String numbers = msg.replaceAll("Temp", "");
         final finalvalues = numbers.split("  ");
-        TempObject tempob = TempObject(double.parse(finalvalues[0]), 15);
+        TempObject tempob = TempObject(double.parse(finalvalues[0]));
         messages.removeAt(0);
         return tempob;
       case "WaterLevel":
