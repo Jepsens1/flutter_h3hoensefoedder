@@ -15,7 +15,7 @@ class _TempsWidgetState extends State<TempsWidget> {
   Stream<TempObject> getData() async* {
     await Future.delayed(Duration(seconds: 1));
     while (true) {
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(Duration(milliseconds: 500));
       var recieveddata = await widget.manager.GetData();
       if (recieveddata.runtimeType == TempObject) {
         yield recieveddata as TempObject;

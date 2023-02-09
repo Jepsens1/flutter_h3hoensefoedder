@@ -16,7 +16,7 @@ class _LightStatusWidgetState extends State<LightStatusWidget> {
   Stream<LightStatusObject?> GetData() async* {
     await Future.delayed(Duration(seconds: 1));
     while (true) {
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(Duration(milliseconds: 500));
       var recieveddata = await widget.manager.GetData();
       if (recieveddata.runtimeType == LightStatusObject) {
         setState(() {

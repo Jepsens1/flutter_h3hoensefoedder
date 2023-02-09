@@ -14,7 +14,9 @@ class DataHandler {
   dynamic GetData() async {
     if (!messages.isEmpty) {
       print("in queue ${messages[0]}");
-      return await receivedDataType(messages[0]);
+      String test = messages[0];
+      messages.removeAt(0);
+      return await receivedDataType(test);
     }
   }
 
@@ -58,12 +60,10 @@ class DataHandler {
         String numbers = msg.replaceAll("Temp", "");
         final finalvalues = numbers.split("  ");
         TempObject tempob = TempObject(double.parse(finalvalues[0]));
-        messages.removeAt(0);
         return tempob;
       case "WaterLevel":
         String number = msg.replaceAll("WaterLevel", "");
         WaterLevelObject waterlevel = WaterLevelObject(double.parse(number));
-        messages.removeAt(0);
         return waterlevel;
       case "Weight":
         String weights =
@@ -71,7 +71,6 @@ class DataHandler {
         final finalvalues = weights.split("  ");
         WeightObject weightObject = WeightObject(
             double.parse(finalvalues[0]), double.parse(finalvalues[1]));
-        messages.removeAt(0);
         return weightObject;
       case "Lights":
         String lightstatus = msg.replaceAll("Lights", "");
@@ -80,13 +79,14 @@ class DataHandler {
           lightstatusss = true;
         }
         LightStatusObject light = LightStatusObject(lightstatusss);
-        messages.removeAt(0);
         return light;
       case "Hatch":
         String hatchstatus = msg.replaceAll("Hatch", "");
-        HatchStatusObject hatch = HatchStatusObject(hatchstatus as bool);
-        messages.removeAt(0);
-        return hatch;
+        bool hatchstatuss = false;
+        if (hatchstatus.contains("true")) {
+          hatchstatuss = true;
+        }
+        return HatchStatusObject(hatchstatuss);
     }
   }
 }

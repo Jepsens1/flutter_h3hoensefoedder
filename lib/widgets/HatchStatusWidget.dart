@@ -13,22 +13,26 @@ class _HatchStatusWidgetState extends State<HatchStatusWidget> {
   HatchStatusObject? data;
   late String status;
   Color? buttoncolor = Colors.red;
-  Future<HatchStatusObject?> GetData() async {
-    var recieveddata = await widget.manager.GetData();
-    if (recieveddata.runtimeType == HatchStatusObject) {
-      setState(() {
-        data = recieveddata;
-        if (data!.status) {
-          buttoncolor = Colors.green;
-          status = "On";
-        } else if (!data!.status) {
-          buttoncolor = Colors.red;
-          status = "Off";
-        }
-      });
-      return data;
+  Stream<HatchStatusObject?> GetData() async* {
+    await Future.delayed(Duration(seconds: 2));
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 500));
+      var recieveddata = await widget.manager.GetData();
+      if (recieveddata.runtimeType == HatchStatusObject) {
+        setState(() {
+          data = recieveddata;
+          if (data!.status) {
+            buttoncolor = Colors.green;
+            status = "On";
+          } else if (!data!.status) {
+            buttoncolor = Colors.red;
+            status = "Off";
+          }
+        });
+        yield data;
+      }
+      yield data;
     }
-    return data;
   }
 
   @override
@@ -67,6 +71,7 @@ class _HatchStatusWidgetState extends State<HatchStatusWidget> {
                           data!.status = !data!.status;
                         });
                         widget.manager.openClose("Hatch", data!.status);
+                        widget.manager.openClose("Hatch", data!.status);
                         Navigator.of(context).pop();
                       },
                     ),
@@ -88,8 +93,8 @@ class _HatchStatusWidgetState extends State<HatchStatusWidget> {
             ),
             backgroundColor: buttoncolor,
             textStyle: const TextStyle(fontWeight: FontWeight.bold)),
-        child: FutureBuilder(
-          future: GetData(),
+        child: StreamBuilder(
+          stream: GetData(),
           builder: ((context, snapshot) {
             List<Widget> childs;
             if (snapshot.hasData) {
