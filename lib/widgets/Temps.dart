@@ -11,13 +11,16 @@ class TempsWidget extends StatefulWidget {
 }
 
 class _TempsWidgetState extends State<TempsWidget> {
-  late Future<TempObject> tempobj;
-  Future<TempObject> getData() async {
-    var recieveddata = await widget.manager.GetData();
-    if (recieveddata.runtimeType == TempObject) {
-      return recieveddata;
+  late Stream<TempObject> tempobj;
+  Stream<TempObject> getData() async* {
+    await Future.delayed(Duration(seconds: 1));
+    while (true) {
+      await Future.delayed(Duration(seconds: 2));
+      var recieveddata = await widget.manager.GetData();
+      if (recieveddata.runtimeType == TempObject) {
+        yield recieveddata as TempObject;
+      }
     }
-    return TempObject(0, 0);
   }
 
   @override
@@ -35,19 +38,42 @@ class _TempsWidgetState extends State<TempsWidget> {
       decoration: const BoxDecoration(
           color: Colors.cyan,
           borderRadius: BorderRadius.all(Radius.circular(10))),
-      child: FutureBuilder<TempObject>(
-          future: tempobj,
+      child: StreamBuilder<TempObject>(
+          stream: tempobj,
           builder: (BuildContext context, AsyncSnapshot<TempObject> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
-            } else if (snapshot.connectionState == ConnectionState.done) {
+              return Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const <Widget>[
+                    SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 8),
+                      child: Text(
+                        'Awaiting result...',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ]));
+            } else if (snapshot.connectionState == ConnectionState.active) {
               if (snapshot.hasError) {
                 return const Text('Error');
               } else if (snapshot.hasData) {
-                return Text("${snapshot.data!.Outsidetemp}",
-                    style: const TextStyle(color: Colors.cyan, fontSize: 36));
+                return Center(
+                    child: Text("Temp: ${snapshot.data!.Outsidetemp}",
+                        style: const TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold)));
               } else {
-                return const Text('Empty data');
+                return const Text('Empty data',
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold));
               }
             } else {
               return Text('State: ${snapshot.connectionState}');
