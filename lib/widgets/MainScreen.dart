@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_h3hoensefoedder/Data/DataManager.dart';
 import 'package:flutter_h3hoensefoedder/widgets/HatchStatusWidget.dart';
 import 'package:flutter_h3hoensefoedder/widgets/LightStatusWidget.dart';
-import 'package:flutter_h3hoensefoedder/widgets/LiveVideoWidget.dart';
 import 'package:flutter_h3hoensefoedder/widgets/Temps.dart';
 import 'package:flutter_h3hoensefoedder/widgets/WaterLevel.dart';
 import 'package:flutter_h3hoensefoedder/widgets/Weightwidget.dart';
@@ -20,6 +19,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    //Creates DataManager object used for all widgets
     manager = DataManager();
   }
 
@@ -36,14 +36,15 @@ class _MainScreenState extends State<MainScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                //Parse in the manager object to widget
                 TempsWidget(manager: manager),
-                //testwdiget(),
                 WaterLevel(manager: manager),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                //Parse in the manager object to widget
                 WeightWidget(manager: manager),
                 LightStatusWidget(manager: manager),
               ],
@@ -51,14 +52,8 @@ class _MainScreenState extends State<MainScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                //Parse in the manager object to widget
                 HatchStatusWidget(manager: manager),
-                //ElevatedButton(
-                // child: Text("TEST"),
-                // onPressed: () {
-                //   manager.openClose("Lights", false);
-                //   manager.openClose("Lights", false);
-                // },
-                //
               ],
             ),
           ],

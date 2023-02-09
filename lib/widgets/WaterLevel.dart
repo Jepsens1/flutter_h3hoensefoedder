@@ -10,6 +10,7 @@ class WaterLevel extends StatefulWidget {
 }
 
 class _WaterLevelState extends State<WaterLevel> {
+  //THIS WIDGET NEEDS TO BE UPDATED ONCE ARDUINO FOR WATER LEVEL IS SET UP
   WaterLevelObject? data;
   Future<WaterLevelObject?> GetData() async {
     var recieveddata = await widget.manager.GetData();

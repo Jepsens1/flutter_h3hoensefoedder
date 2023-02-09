@@ -10,6 +10,7 @@ class WeightWidget extends StatefulWidget {
 }
 
 class _WeightWidgetState extends State<WeightWidget> {
+  //THIS WIDGET NEEDS TO BE UPDATED ONCE ARDUINO FOR WATER LEVEL IS SET UP
   WeightObject? data;
   Future<WeightObject?> GetData() async {
     var recieveddata = await widget.manager.GetData();
